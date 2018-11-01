@@ -1,9 +1,10 @@
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import unittest
 
-class NewVistorTest(unittest.TestCase):
+class NewVistorTest(LiveServerTestCase):
     
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -19,7 +20,7 @@ class NewVistorTest(unittest.TestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Edith ouviu falar de uma nova aplicação online interessante
         # para lista de tarefas. Ela decide verificar sua homepage
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # Ela percebe que o título da página e o cabeçalho mencionam
         # listas de tarefas (to-do)
@@ -53,7 +54,7 @@ class NewVistorTest(unittest.TestCase):
 
         # A página é atualizada novamente e agora mostra os dois itens em sua lista
         self.check_for_row_in_list_table('1: Buy peacock feathers')
-        self.check_for_row_in_list_table('2: Use peacock to make a fly')
+        self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
         # Edith se pergunta se o site lembrará de sua lista. Então ela nota
         # que o site gerou um URL único para ela -- há um pequeno

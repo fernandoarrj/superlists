@@ -68,7 +68,6 @@ class NewVistorTest(LiveServerTestCase):
         # Edith se pergunta se o site lembrará de sua lista. Então ela nota
         # que o site gerou um URL único para ela -- há um pequeno
         # texto explicativo para isso.
-        self.fail('Finish the test!')
         
         # Ela acessa essa URL - sua lista de tarefas continua lá.
 
@@ -104,6 +103,7 @@ class NewVistorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Buy milk')
         
         # Francis obtém seu próprio URL exclusivo
         francis_list_url = self.browser.current_url

@@ -3,9 +3,10 @@ from fabric.api import env, local, run
 import random
 
 REPO_URL = 'https://github.com/fernandoarrj/superlists'
+SITENAME='www.staging-lists.com'
 
 def deploy():
-    site_folder = f'/home/{env.user}/sites/{env.host}'
+    site_folder = f'/home/{env.user}/sites/{SITENAME}'
     source_folder = site_folder + '/source'
     _create_directory_structure_if_necessary(site_folder)
     _get_latest_source(source_folder)
@@ -16,10 +17,10 @@ def deploy():
 
 def _create_directory_structure_if_necessary(site_folder):
     for subfolder in ('database', 'static', 'env', 'source'):
-        run(f'mkdir - p {site_folder}/{subfolder}')
+        run(f'mkdir -p {site_folder}/{subfolder}')
 
 def _get_latest_source(source_folder):
-    if exists(source_folder + './git'):
+    if exists(source_folder + '/.git'):
         run(f'cd {source_folder} && git fetch')
     else:
         run(f'git clone {REPO_URL} {source_folder}')
@@ -52,7 +53,7 @@ def _update_virtualenv(source_folder):
 def _update_static_files(source_folder):
     run(
         f'cd {source_folder}'
-        ' && ../env/bin/python manage.py collecstatic --noinput'
+        ' && ../env/bin/python manage.py collectstatic --noinput'
     )
 
 def _update_database(source_folder):
@@ -60,3 +61,4 @@ def _update_database(source_folder):
         f'cd {source_folder}'
         ' && ../env/bin/python manage.py migrate --noinput'
     )
+

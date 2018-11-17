@@ -51,13 +51,11 @@ class ItemValidationTest(FunctionalTest):
     def test_cannot_add_duplicate_item(self):
         # Edith acessa a página inicial e começa uma nova lista
         self.browser.get(self.live_server_url)
-        self.get_item_input_box().send_keys('Buy wellies')
-        self.get_item_input_box().send_keys(Keys.ENTER)
+        self.add_list_item('Buy wellies')
         self.wait_for_row_in_list_table('1: Buy wellies')
 
         # Ela tenta acidentalmente inserir um item duplicado
-        self.get_item_input_box().send_keys('Buy wellies')
-        self.get_item_input_box().send_keys(Keys.ENTER)
+        self.add_list_item('Buy wellies')
 
         # Ela vê uma mensagem de erro prestativa
         self.wait_for(lambda: self.assertEqual(
@@ -68,11 +66,9 @@ class ItemValidationTest(FunctionalTest):
     def test_error_messages_are_cleared_on_input(self):
         # Edith inicia uma lista e provoca um erro de validação
         self.browser.get(self.live_server_url)
-        self.get_item_input_box().send_keys('Banter too thick')
-        self.get_item_input_box().send_keys(Keys.ENTER)
+        self.add_list_item('Banter too thick')
         self.wait_for_row_in_list_table('1: Banter too thick')
-        self.get_item_input_box().send_keys('Banter too thick')
-        self.get_item_input_box().send_keys(Keys.ENTER)
+        self.add_list_item('Banter too thick')
 
         self.wait_for(lambda: self.assertTrue(
             self.get_error_element().is_displayed()
